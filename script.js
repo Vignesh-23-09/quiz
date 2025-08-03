@@ -841,6 +841,16 @@ statesData['Andhra Pradesh'].mcqs = [
     question: 'Which festival is widely celebrated in Andhra Pradesh?',
     options: ['Ugadi', 'Pongal', 'Bihu', 'Lohri'],
     answer: 'Ugadi'
+  },
+  {
+    question: 'What is the capital of Andhra Pradesh?',
+    options: ['Amaravati', 'Hyderabad', 'Vijayawada', 'Visakhapatnam'],
+    answer: 'Amaravati'
+  },
+  {
+    question: 'Which language is primarily spoken in Andhra Pradesh?',
+    options: ['Telugu', 'Hindi', 'Tamil', 'Kannada'],
+    answer: 'Telugu'
   }
 ];
 
@@ -862,6 +872,16 @@ statesData['Gujarat'].mcqs = [
     question: 'Which festival is widely celebrated in Gujarat?',
     options: ['Navratri', 'Diwali', 'Pongal', 'Bihu'],
     answer: 'Navratri'
+  },
+  {
+    question: 'What is the capital of Gujarat?',
+    options: ['Gandhinagar', 'Ahmedabad', 'Surat', 'Vadodara'],
+    answer: 'Gandhinagar'
+  },
+  {
+    question: 'Which language is primarily spoken in Gujarat?',
+    options: ['Gujarati', 'Hindi', 'Marathi', 'Punjabi'],
+    answer: 'Gujarati'
   }
 ];
 
@@ -883,6 +903,16 @@ statesData['Tamil Nadu'].mcqs = [
     question: 'Which festival is widely celebrated in Tamil Nadu?',
     options: ['Pongal', 'Navratri', 'Bihu', 'Lohri'],
     answer: 'Pongal'
+  },
+  {
+    question: 'What is the capital of Tamil Nadu?',
+    options: ['Chennai', 'Madurai', 'Coimbatore', 'Tiruchirappalli'],
+    answer: 'Chennai'
+  },
+  {
+    question: 'Which language is primarily spoken in Tamil Nadu?',
+    options: ['Tamil', 'Telugu', 'Malayalam', 'Kannada'],
+    answer: 'Tamil'
   }
 ];
 
@@ -901,13 +931,13 @@ function showExploreQuizPage() {
         page.id = 'exploreQuizPage';
         page.className = 'page active';
         page.innerHTML = `
-            <div style="text-align:center; margin-bottom:20px;">
-                <h2>Explore States Quiz</h2>
-                <div>Select a state to begin:</div>
-                <select id="exploreStateSelect" style="margin:10px; padding:5px;"></select>
-                <button class="btn" onclick="startExploreQuiz()">Start Quiz</button>
+            <div class="explore-quiz-header">
+                <h2 class="explore-quiz-title">🧭 Explore States Quiz</h2>
+                <div class="explore-quiz-desc">Select a state to begin:</div>
+                <select id="exploreStateSelect" class="explore-quiz-select"></select>
+                <button class="btn explore-quiz-btn" onclick="startExploreQuiz()">Start Quiz</button>
             </div>
-            <div id="exploreQuizContainer"></div>
+            <div id="exploreQuizContainer" class="explore-quiz-container"></div>
         `;
         document.querySelector('.main-content').appendChild(page);
     }
@@ -927,7 +957,7 @@ function showExploreQuizPage() {
 function startExploreQuiz() {
     exploreQuizState = document.getElementById('exploreStateSelect').value;
     const mcqs = statesData[exploreQuizState].mcqs || [];
-    exploreQuizQuestions = mcqs.sort(() => 0.5 - Math.random()).slice(0, 3);
+    exploreQuizQuestions = mcqs.sort(() => 0.5 - Math.random()).slice(0, 5);
     exploreQuizIndex = 0;
     exploreQuizScore = 0;
     showExploreQuizQuestion();
