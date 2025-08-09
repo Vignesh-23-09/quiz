@@ -208,11 +208,14 @@ let authToken = null;
         let isDarkMode = false;
 
         const API_BASE_URL = (function() {
-            const { protocol, host } = window.location;
-            // If served from a file or without a host, default to localhost
-            if (!host) return 'http://localhost:5000';
-            return `${protocol}//${host}`;
-        })();
+    if (typeof window !== 'undefined' && window.__API_BASE_URL__) {
+        return window.__API_BASE_URL__;
+    }
+    const { protocol, host } = window.location;
+    // If served from a file or without a host, default to localhost
+    if (!host) return 'http://localhost:5000';
+    return `${protocol}//${host}`;
+})();
 
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
