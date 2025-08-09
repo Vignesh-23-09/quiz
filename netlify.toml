@@ -1,5 +1,5 @@
 [build]
-  publish = "/"
+  publish = "."
 
 # Redirect API calls to your Render backend (replace with your actual backend URL after deploy)
 # Uncomment and set the URL when backend is live
