@@ -1,0 +1,16 @@
+[build]
+  publish = "/"
+
+# Redirect API calls to your Render backend (replace with your actual backend URL after deploy)
+# Uncomment and set the URL when backend is live
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://your-render-backend.onrender.com/api/:splat"
+#   status = 200
+#   force = true
+
+# SPA fallback for clean routes
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
