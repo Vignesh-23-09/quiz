@@ -207,6 +207,13 @@ let authToken = null;
         let soundEnabled = true;
         let isDarkMode = false;
 
+        const API_BASE_URL = (function() {
+            const { protocol, host } = window.location;
+            // If served from a file or without a host, default to localhost
+            if (!host) return 'http://localhost:5000';
+            return `${protocol}//${host}`;
+        })();
+
         // Initialize application
         document.addEventListener('DOMContentLoaded', function() {
             loadTheme();
@@ -236,7 +243,7 @@ let authToken = null;
                 return;
             }
 
-    fetch('http://localhost:5000/api/auth/login', {
+    fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -290,7 +297,7 @@ let authToken = null;
                 joinDate: new Date().toISOString()
             };
 
-    fetch('http://localhost:5000/api/auth/signup', {
+    fetch(`${API_BASE_URL}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, username, password })
@@ -508,7 +515,7 @@ let authToken = null;
                 answers: currentQuiz.answers
             };
 
-    fetch('http://localhost:5000/api/quiz/save', {
+    fetch(`${API_BASE_URL}/api/quiz/save`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -578,7 +585,7 @@ let authToken = null;
     const avgScore = currentUser.totalQuizzes > 0 ? Math.round(currentUser.totalScore / currentUser.totalQuizzes) : 0;
     document.getElementById('avgScore').textContent = avgScore + '%';
     // Get leaderboard and rank from backend
-    fetch('http://localhost:5000/api/quiz/leaderboard')
+    fetch(`${API_BASE_URL}/api/quiz/leaderboard`)
         .then(res => res.json())
         .then(users => {
             const userRank = users.findIndex(user => user.username === currentUser.username) + 1;
@@ -637,7 +644,7 @@ let authToken = null;
         function updateLeaderboard() {
     const leaderboardBody = document.getElementById('leaderboardBody');
     leaderboardBody.innerHTML = '';
-    fetch('http://localhost:5000/api/quiz/leaderboard')
+    fetch(`${API_BASE_URL}/api/quiz/leaderboard`)
         .then(res => res.json())
         .then(users => {
             users.forEach((user, index) => {
@@ -759,7 +766,7 @@ let authToken = null;
 
 function markStateCompleted(stateName) {
     if (!authToken) return;
-    fetch('http://localhost:5000/api/quiz/complete-state', {
+    fetch(`${API_BASE_URL}/api/quiz/complete-state`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -772,7 +779,7 @@ function markStateCompleted(stateName) {
 function getCompletedCount() {
     if (!authToken) return 0;
     // This function is now async
-    return fetch('http://localhost:5000/api/quiz/progress', {
+    return fetch(`${API_BASE_URL}/api/quiz/progress`, {
         headers: { 'Authorization': authToken }
     })
     .then(res => res.json())
@@ -806,11 +813,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function fetchUserStats() {
-    // After saving quiz, refresh user stats
-    fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: currentUser.username, password: '' }) // password not needed, but backend requires it
+    if (!authToken) return;
+    fetch(`${API_BASE_URL}/api/auth/me`, {
+        headers: { 'Authorization': authToken }
     })
     .then(res => res.json())
     .then(data => {
